@@ -1,12 +1,12 @@
-package com.cleriasty;
+package com.cleriasty.clientes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ServiceProvidedApplication {
+public class ClientesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServiceProvidedApplication.class, args);
+        SpringApplication.run(ClientesApplication.class, args);
     }
 }
