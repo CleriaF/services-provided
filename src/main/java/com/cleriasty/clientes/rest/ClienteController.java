@@ -4,6 +4,7 @@ import com.cleriasty.clientes.model.entity.Cliente;
 import com.cleriasty.clientes.model.repository.ClienteRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -19,6 +20,37 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente salvar(@RequestBody Cliente cliente) {
         return repository.save(cliente);
+    }
+
+    @GetMapping("{id}")
+    public Cliente buscarPorID(@PathVariable Integer id){
+        return repository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND)));
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Integer id){
+        repository
+                .findById(id)
+                .map(cliente -> {
+                    repository.delete(cliente);
+                    return Void.TYPE;
+                })
+                .orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND)));
+    }
+
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizar(@PathVariable Integer id, @RequestBody Cliente clienteAtt) {
+        repository
+                .findById(id)
+                .map(cliente -> {
+                    clienteAtt.setId(cliente.getId());
+                    return repository.save(clienteAtt);
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
 }
