@@ -20,6 +20,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin("http://localhost:4200")
     public Cliente salvar(@RequestBody @Valid Cliente cliente) {
         return repository.save(cliente);
     }
